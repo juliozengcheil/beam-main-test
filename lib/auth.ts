@@ -75,6 +75,10 @@ export const authOptions: NextAuthOptions = {
       : []),
   ],
   callbacks: {
+     async redirect(url, baseUrl) {
+                // return "/";
+                return url;
+            },
     async signIn({ user, account, profile }) {
       if (profile.notAllowed) {
         return false
