@@ -2,7 +2,7 @@ import { Avatar } from '@/components/avatar'
 import { ButtonLink } from '@/components/button-link'
 import { Footer } from '@/components/footer'
 import { IconButton } from '@/components/icon-button'
-import { Logo, SearchIcon } from '@/components/icons'
+import { CheilLogo, SearchIcon } from '@/components/icons'
 import {
   Menu,
   MenuButton,
@@ -32,7 +32,7 @@ export function Layout({ children }: LayoutProps) {
       <header className="flex items-center justify-between gap-4 py-12 md:py-20">
         <Link href="/">
           <a>
-            <Logo className="w-auto text-red-light h-[34px]" />
+            <CheilLogo className="w-auto text-3xl font-black" />
           </a>
         </Link>
         <div className="flex items-center gap-2 md:gap-4">
