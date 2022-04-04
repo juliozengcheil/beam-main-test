@@ -1,6 +1,6 @@
 import { Button } from '@/components/button'
 import { Footer } from '@/components/footer'
-import { Logo } from '@/components/icons'
+import { CheilLogo } from '@/components/icons'
 import { authOptions } from '@/lib/auth'
 import type {
   GetServerSidePropsContext,
@@ -17,13 +17,13 @@ const SignIn = ({
   return (
     <>
       <Head>
-        <title>Sign In - Beam</title>
+        <title>Sign In - Cheil</title>
       </Head>
 
       <Div100vh>
         <main className="relative flex items-center justify-center h-full bg-center bg-circle-grid dark:bg-circle-grid-dark">
           <div className="relative bottom-16">
-            <Logo className="w-[326px] text-red-light h-[94px] mb-8 bg-primary" />
+            <CheilLogo className="mb-8 text-center font-black text-7xl" />
             <div className="w-full space-y-4 text-center bg-primary">
               {Object.values(providers!).map((provider) => (
                 <div key={provider.name}>
