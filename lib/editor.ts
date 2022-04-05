@@ -1,4 +1,4 @@
-import { uploadImage } from '@/lib/cloudinary'
+import { uploadImage } from '@/lib/uploadImage'
 import DOMPurify from 'isomorphic-dompurify'
 import { marked } from 'marked'
 import toast from 'react-hot-toast'
@@ -32,7 +32,8 @@ export function handleUploadImages(
 
     try {
       const uploadedImage = await uploadImage(file)
-
+      console.log('uploaded image ', uploadedImage)
+      //after succesfully receive the data populate and put it in the UI
       replacePlaceholder(
         cursor,
         placeholder,
