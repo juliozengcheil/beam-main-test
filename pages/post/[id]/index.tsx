@@ -23,7 +23,7 @@ import {
 } from '@/components/icons'
 import { Layout } from '@/components/layout'
 import { LikeButton } from '@/components/like-button'
-import { MarkdownEditor } from '@/components/markdown-editor'
+import MarkdownEditor from '@/components/markdown-editor/markdown-editor'
 import {
   Menu,
   MenuButton,

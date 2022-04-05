@@ -1,7 +1,7 @@
 import { Button } from '@/components/button'
 import { ButtonLink } from '@/components/button-link'
 import { MarkdownIcon } from '@/components/icons'
-import { MarkdownEditor } from '@/components/markdown-editor'
+import MarkdownEditor from '@/components/markdown-editor/markdown-editor'
 import { TextField } from '@/components/text-field'
 import { useLeaveConfirm } from '@/lib/form'
 import * as React from 'react'

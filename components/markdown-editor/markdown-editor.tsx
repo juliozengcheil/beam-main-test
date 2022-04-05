@@ -45,7 +45,7 @@ const TOOLBAR_ITEMS = [
   },
 ]
 
-export function MarkdownEditor({
+export default function MarkdownEditor({
   label,
   value,
   minRows = 15,
