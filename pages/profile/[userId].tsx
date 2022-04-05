@@ -15,7 +15,7 @@ import type { PostSummaryProps } from '@/components/post-summary'
 import { PostSummarySkeleton } from '@/components/post-summary-skeleton'
 import { TextField } from '@/components/text-field'
 import { browserEnv } from '@/env/browser'
-import { uploadImage } from '@/lib/uploadImage'
+import { uploadFile } from '@/lib/uploadFile'
 import { InferQueryPathAndInput, trpc } from '@/lib/trpc'
 import type { NextPageWithAuthAndLayout } from '@/lib/types'
 import { useSession } from 'next-auth/react'
@@ -455,7 +455,7 @@ function UpdateAvatarDialog({
   })
   const uploadImageMutation = useMutation(
     (file: File) => {
-      return uploadImage(file)
+      return uploadFile(file)
     },
     {
       onError: (error: any) => {

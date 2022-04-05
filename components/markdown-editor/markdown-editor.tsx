@@ -2,7 +2,7 @@ import * as React from 'react'
 import { BoldIcon, ItalicIcon, LinkIcon, ListIcon } from '@/components/icons'
 import { browserEnv } from '@/env/browser'
 import { classNames } from '@/lib/classnames'
-import { getSuggestionData, handleUploadImages } from '@/lib/editor'
+import { getSuggestionData, handleUploadFiles } from '@/lib/editor'
 import { Switch } from '@headlessui/react'
 import TextareaAutosize, {
   TextareaAutosizeProps,
@@ -183,7 +183,8 @@ export default function MarkdownEditor({
               onPaste={(event) => {
                 if (browserEnv.NEXT_PUBLIC_ENABLE_IMAGE_UPLOAD) {
                   const filesArray = Array.from(event.clipboardData.files)
-
+                  console.log('onPaste event', event)
+                  console.log('onPaste filesArray', filesArray)
                   if (filesArray.length === 0) {
                     return
                   }
@@ -198,10 +199,12 @@ export default function MarkdownEditor({
 
                   event.preventDefault()
 
-                  handleUploadImages(event.currentTarget, imageFiles)
+                  handleUploadFiles(event.currentTarget, imageFiles)
                 }
               }}
               onDrop={(event) => {
+                console.log('prevent default')
+                event.preventDefault()
                 if (browserEnv.NEXT_PUBLIC_ENABLE_IMAGE_UPLOAD) {
                   const filesArray = Array.from(event.dataTransfer.files)
 
@@ -209,17 +212,7 @@ export default function MarkdownEditor({
                     return
                   }
 
-                  const imageFiles = filesArray.filter((file) =>
-                    /image/i.test(file.type)
-                  )
-
-                  if (imageFiles.length === 0) {
-                    return
-                  }
-
-                  event.preventDefault()
-
-                  handleUploadImages(event.currentTarget, imageFiles)
+                  handleUploadFiles(event.currentTarget, filesArray)
                 }
               }}
               className="block w-full rounded shadow-sm bg-secondary border-secondary focus-ring"

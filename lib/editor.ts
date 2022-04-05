@@ -1,4 +1,4 @@
-import { uploadImage } from '@/lib/uploadImage'
+import { uploadFile } from '@/lib/uploadFile'
 import DOMPurify from 'isomorphic-dompurify'
 import { marked } from 'marked'
 import toast from 'react-hot-toast'
@@ -16,10 +16,11 @@ function replacePlaceholder(
   cursor.setText(cursor.getText().replace(placeholder, replaceWith))
 }
 
-export function handleUploadImages(
+export function handleUploadFiles(
   textareaEl: HTMLTextAreaElement,
   files: File[]
 ) {
+  console.log('handleuploadImages')
   const cursor = new Cursor(textareaEl)
   const currentLineNumber = cursor.getCurrentPosition().lineNumber
 
@@ -31,8 +32,7 @@ export function handleUploadImages(
     })
 
     try {
-      const uploadedImage = await uploadImage(file)
-      console.log('uploaded image ', uploadedImage)
+      const uploadedImage = await uploadFile(file)
       //after succesfully receive the data populate and put it in the UI
       replacePlaceholder(
         cursor,
