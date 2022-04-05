@@ -3,6 +3,7 @@ import DOMPurify from 'isomorphic-dompurify'
 import { marked } from 'marked'
 import toast from 'react-hot-toast'
 import { Cursor } from 'textarea-markdown-editor'
+import type { ResData } from '@/lib/uploadFile'
 
 export function markdownToHtml(markdown: string) {
   return DOMPurify.sanitize(marked.parse(markdown, { breaks: true }))
@@ -32,15 +33,17 @@ export function handleUploadFiles(
     })
 
     try {
-      const uploadedFile = await uploadFile(file)
+      const uploadedFile: ResData = await uploadFile(file)
+
       //after succesfully receive the data populate and put it in the UI
       const replaceWith = uploadedFile.isImg
         ? `<img width="${
-            uploadedFile.dpi >= 144
-              ? Math.round(uploadedFile.width / 2)
+            uploadedFile.dpi! >= 144
+              ? Math.round(uploadedFile.width! / 2)
               : uploadedFile.width
           }" alt="${uploadedFile.originalFilename}" src="${uploadedFile.url}">`
         : `<a href=${uploadedFile.url} target="_blank" download>Click to Download the file${uploadedFile.originalFilename}</a>`
+
       replacePlaceholder(cursor, placeholder, replaceWith)
     } catch (error: any) {
       console.log(error)

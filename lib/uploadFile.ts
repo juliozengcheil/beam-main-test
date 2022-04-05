@@ -1,6 +1,35 @@
 import { supabase } from './supabase-client'
 import { browserEnv } from '@/env/browser'
 
+export interface ResData {
+  url: string
+  originalFilename: string | undefined
+  isImg: boolean
+  width?: number
+  dpi?: number
+}
+
+const parseResData = (
+  data: { Key: string } | null,
+  isImg: boolean
+): ResData => {
+  const filename = data?.Key.split('/')[2].split('-')[1]
+  if (isImg) {
+    return {
+      url: `${browserEnv.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data?.Key}`,
+      originalFilename: filename,
+      isImg,
+    }
+  }
+  return {
+    url: `${browserEnv.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data?.Key}`,
+    originalFilename: filename,
+    width: 200,
+    dpi: 144,
+    isImg,
+  }
+}
+
 export async function uploadFile(file: File) {
   const isImg = /image/i.test(file.type)
   console.log(isImg)
@@ -18,11 +47,5 @@ export async function uploadFile(file: File) {
     throw Error(error.message)
   }
 
-  const parseData = {
-    url: `${browserEnv.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data?.Key}`,
-    originalFilename: file.name,
-    width: 200,
-    dpi: 144,
-  }
-  return parseData
+  return parseResData(data, isImg)
 }
