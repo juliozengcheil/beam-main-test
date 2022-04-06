@@ -61,6 +61,32 @@ const PostPage: NextPageWithAuthAndLayout = () => {
     Number(router.query.id)
   )
   const postQuery = trpc.useQuery(postQueryPathAndInput)
+
+  const downloadMutation = trpc.useMutation(['post.download'], {
+    onMutate: async (downloadedPostId) => {
+      await utils.cancelQuery(postQueryPathAndInput)
+
+      const previousPost = utils.getQueryData(postQueryPathAndInput)
+
+      if (previousPost) {
+        utils.setQueryData(postQueryPathAndInput, {
+          ...previousPost,
+          downloadBy: [
+            ...previousPost.likedBy,
+            { user: { id: session!.user.id, name: session!.user.name } },
+          ],
+        })
+      }
+
+      return { previousPost }
+    },
+    onError: (err, id, context: any) => {
+      if (context?.previousPost) {
+        utils.setQueryData(postQueryPathAndInput, context.previousPost)
+      }
+    },
+  })
+
   const likeMutation = trpc.useMutation(['post.like'], {
     onMutate: async (likedPostId) => {
       await utils.cancelQuery(postQueryPathAndInput)
@@ -250,7 +276,7 @@ const PostPage: NextPageWithAuthAndLayout = () => {
               <button
                 onClick={() => {
                   onClickDownload(postQuery.data.fileUrl)
-                  session?.user.id
+                  downloadMutation.mutate(postQuery.data.id)
                 }}
               >
                 download {getFilename(postQuery.data.fileUrl)}

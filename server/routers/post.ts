@@ -55,6 +55,19 @@ export const postRouter = createProtectedRouter()
               },
             },
           },
+          downloadBy: {
+            orderBy: {
+              createdAt: 'asc',
+            },
+            select: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
           _count: {
             select: {
               comments: true,
@@ -109,6 +122,19 @@ export const postRouter = createProtectedRouter()
               },
             },
           },
+          downloadBy: {
+            orderBy: {
+              createdAt: 'asc',
+            },
+            select: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
           comments: {
             orderBy: {
               createdAt: 'asc',
@@ -131,6 +157,7 @@ export const postRouter = createProtectedRouter()
             select: {
               comments: true,
               likedBy: true,
+              downloadBy: true,
             },
           },
         },
