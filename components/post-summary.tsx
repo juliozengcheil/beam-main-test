@@ -87,7 +87,7 @@ export function PostSummary({
             <AuthorWithDate author={post.author} date={post.createdAt} />
           )}
         </div>
-
+        {post.fileUrl && <span>Has attach file</span>}
         <HtmlView html={summary} className={hideAuthor ? 'mt-4' : 'mt-6'} />
 
         <div className="flex items-center gap-4 mt-4">
