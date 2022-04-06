@@ -34,6 +34,7 @@ export const postRouter = createProtectedRouter()
           contentHtml: true,
           createdAt: true,
           hidden: true,
+          fileUrl: true,
           author: {
             select: {
               id: true,
@@ -87,6 +88,7 @@ export const postRouter = createProtectedRouter()
           contentHtml: true,
           createdAt: true,
           hidden: true,
+          fileUrl: true,
           author: {
             select: {
               id: true,
