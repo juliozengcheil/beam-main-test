@@ -21,7 +21,6 @@ export function handleUploadFiles(
   textareaEl: HTMLTextAreaElement,
   files: File[]
 ) {
-  console.log('handleuploadImages')
   const cursor = new Cursor(textareaEl)
   const currentLineNumber = cursor.getCurrentPosition().lineNumber
 
@@ -42,7 +41,7 @@ export function handleUploadFiles(
               ? Math.round(uploadedFile.width! / 2)
               : uploadedFile.width
           }" alt="${uploadedFile.originalFilename}" src="${uploadedFile.url}">`
-        : `<a href=${uploadedFile.url} target="_blank" download>Click to Download the file${uploadedFile.originalFilename}</a>`
+        : `<a href="#" target="_blank">Click to Download the file${uploadedFile.originalFilename}</a>`
 
       replacePlaceholder(cursor, placeholder, replaceWith)
     } catch (error: any) {

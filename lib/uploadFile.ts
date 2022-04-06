@@ -5,13 +5,15 @@ export interface ResData {
   url: string
   originalFilename: string | undefined
   isImg: boolean
+  filePath: string
   width?: number
   dpi?: number
 }
 
 const parseResData = (
   data: { Key: string } | null,
-  isImg: boolean
+  isImg: boolean,
+  filePath: string
 ): ResData => {
   const filename = data?.Key.split('/')[2].split('-')[1]
   if (isImg) {
@@ -19,6 +21,7 @@ const parseResData = (
       url: `${browserEnv.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data?.Key}`,
       originalFilename: filename,
       isImg,
+      filePath,
     }
   }
   return {
@@ -27,6 +30,7 @@ const parseResData = (
     width: 200,
     dpi: 144,
     isImg,
+    filePath,
   }
 }
 
@@ -37,7 +41,8 @@ export async function uploadFile(file: File) {
 
   const timestamp = Math.round(new Date().getTime() / 1000)
   const folderName = isImg ? 'images' : 'files'
-  const filePath = `${folderName}/${timestamp}-${file.name}`
+  const filename = `${timestamp}-${file.name}`
+  const filePath = `${folderName}/${filename}`
 
   const { data, error } = await supabase.storage
     .from('cheil-post')
@@ -47,5 +52,5 @@ export async function uploadFile(file: File) {
     throw Error(error.message)
   }
 
-  return parseResData(data, isImg)
+  return parseResData(data, isImg, filePath)
 }

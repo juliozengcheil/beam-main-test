@@ -181,25 +181,15 @@ export default function MarkdownEditor({
                 }
               }}
               onPaste={(event) => {
+                event.preventDefault()
                 if (browserEnv.NEXT_PUBLIC_ENABLE_IMAGE_UPLOAD) {
                   const filesArray = Array.from(event.clipboardData.files)
-                  console.log('onPaste event', event)
-                  console.log('onPaste filesArray', filesArray)
+
                   if (filesArray.length === 0) {
                     return
                   }
 
-                  const imageFiles = filesArray.filter((file) =>
-                    /image/i.test(file.type)
-                  )
-
-                  if (imageFiles.length === 0) {
-                    return
-                  }
-
-                  event.preventDefault()
-
-                  handleUploadFiles(event.currentTarget, imageFiles)
+                  handleUploadFiles(event.currentTarget, filesArray)
                 }
               }}
               onDrop={(event) => {
