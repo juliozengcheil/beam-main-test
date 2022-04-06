@@ -57,9 +57,7 @@ export function PostForm({
                   type="file"
                   onChange={async (e) => {
                     const file = e.target.files![0]
-                    console.log(file)
                     const uploadedFile = await uploadFile(file)
-                    console.log(uploadedFile)
                     field.onChange(uploadedFile.url)
                     return uploadedFile.url
                   }}
