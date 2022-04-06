@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { browserEnv } from '@/env/browser'
 import fileDownload from 'js-file-download'
+import getFilename from './getFilename'
 
 export const supabase = createClient(
   browserEnv.NEXT_PUBLIC_SUPABASE_URL,
@@ -13,8 +14,7 @@ export const onClickDownload = (fileUrl: string) => {
     .download(fileUrl)
     .then((res) => {
       console.log('res', fileUrl)
-      const hyphenIndex = fileUrl.indexOf('-')
-      const filename = fileUrl.substring(hyphenIndex + 1)
+      const filename = getFilename(fileUrl)
       fileDownload(res.data!, filename)
     })
     .catch((e) => {

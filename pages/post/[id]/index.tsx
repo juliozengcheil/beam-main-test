@@ -31,10 +31,10 @@ import {
   MenuItems,
   MenuItemsContent,
 } from '@/components/menu'
-import { supabase } from '@/lib/supabase-client'
+import getFilename from '@/lib/getFilename'
+import { onClickDownload } from '@/lib/supabase-client'
 import { InferQueryOutput, InferQueryPathAndInput, trpc } from '@/lib/trpc'
 import type { NextPageWithAuthAndLayout } from '@/lib/types'
-import fileDownload from 'js-file-download'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -241,31 +241,19 @@ const PostPage: NextPageWithAuthAndLayout = () => {
                 date={postQuery.data.createdAt}
               />
             </div>
-            <div className="mt-6">
+            {/* <div className="mt-6">
               <a href="/api/getFile/abc" download>
                 test download api getfile
               </a>
-            </div>
+            </div> */}
             <div className="mt-6">
               <button
                 onClick={() => {
-                  supabase.storage
-                    .from('cheil-post')
-                    .download(postQuery.data.fileUrl)
-                    .then((res) => {
-                      console.log('res', postQuery.data.fileUrl)
-                      const hyphenIndex = postQuery.data.fileUrl.indexOf('-')
-                      const filename = postQuery.data.fileUrl.substring(
-                        hyphenIndex + 1
-                      )
-                      fileDownload(res.data!, filename)
-                    })
-                    .catch((e) => {
-                      console.log('some error on supabase', e.message)
-                    })
+                  onClickDownload(postQuery.data.fileUrl)
+                  session?.user.id
                 }}
               >
-                usando js-file-download
+                download {getFilename(postQuery.data.fileUrl)}
               </button>
             </div>
             <HtmlView html={postQuery.data.contentHtml} className="mt-8" />
