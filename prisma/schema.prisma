@@ -85,6 +85,7 @@ model Post {
   authorId    String
   likedBy     LikedPosts[]
   comments    Comment[]
+  fileUrl     String
 
   @@index([authorId])
   @@fulltext([title, content])

@@ -35,6 +35,8 @@ const parseResData = (
 }
 
 export async function uploadFile(file: File) {
+  console.log('uploadFile', file)
+  // const isImg = false
   const isImg = /image/i.test(file.type)
   console.log(isImg)
   //supabase storeage

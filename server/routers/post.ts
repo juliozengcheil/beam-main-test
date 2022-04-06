@@ -171,6 +171,7 @@ export const postRouter = createProtectedRouter()
     input: z.object({
       title: z.string().min(1),
       content: z.string().min(1),
+      fileUrl: z.string().min(1),
     }),
     async resolve({ ctx, input }) {
       const post = await ctx.prisma.post.create({
@@ -183,6 +184,7 @@ export const postRouter = createProtectedRouter()
               id: ctx.session.user.id,
             },
           },
+          fileUrl: input.fileUrl,
         },
       })
 

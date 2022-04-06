@@ -21,7 +21,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
       </Head>
 
       <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-        New post
+        New Report
       </h1>
 
       <div className="mt-6">
@@ -34,7 +34,11 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
           backTo="/"
           onSubmit={(values) => {
             addPostMutation.mutate(
-              { title: values.title, content: values.content },
+              {
+                title: values.title,
+                content: values.content,
+                fileUrl: values.fileUrl!,
+              },
               {
                 onSuccess: (data) => router.push(`/post/${data.id}`),
               }

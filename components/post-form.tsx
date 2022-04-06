@@ -1,15 +1,17 @@
+import * as React from 'react'
 import { Button } from '@/components/button'
 import { ButtonLink } from '@/components/button-link'
 import { MarkdownIcon } from '@/components/icons'
 import MarkdownEditor from '@/components/markdown-editor/markdown-editor'
 import { TextField } from '@/components/text-field'
 import { useLeaveConfirm } from '@/lib/form'
-import * as React from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { uploadFile } from '@/lib/uploadFile'
 
 type FormData = {
   title: string
   content: string
+  fileUrl?: string
 }
 
 type PostFormProps = {
@@ -29,7 +31,7 @@ export function PostForm({
     useForm<FormData>({
       defaultValues,
     })
-
+  console.log(getValues())
   useLeaveConfirm({ formState })
 
   const { isSubmitSuccessful } = formState
@@ -42,6 +44,32 @@ export function PostForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mt-6">
+        <Controller
+          name="fileUrl"
+          control={control}
+          rules={{ required: false }}
+          render={({ field }) => {
+            return (
+              <label className="">
+                <input
+                  name="file"
+                  type="file"
+                  onChange={async (e) => {
+                    const file = e.target.files![0]
+                    console.log(file)
+                    const uploadedFile = await uploadFile(file)
+                    console.log(uploadedFile)
+                    field.onChange(uploadedFile.url)
+                    return uploadedFile.url
+                  }}
+                />
+              </label>
+            )
+          }}
+        />
+      </div>
+
       <TextField
         {...register('title', { required: true })}
         label="Title"
@@ -55,15 +83,17 @@ export function PostForm({
           name="content"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => (
-            <MarkdownEditor
-              label="Post"
-              value={field.value}
-              onChange={field.onChange}
-              onTriggerSubmit={handleSubmit(onSubmit)}
-              required
-            />
-          )}
+          render={({ field }) => {
+            return (
+              <MarkdownEditor
+                label="Post"
+                value={field.value}
+                onChange={field.onChange}
+                onTriggerSubmit={handleSubmit(onSubmit)}
+                required
+              />
+            )
+          }}
         />
       </div>
 
