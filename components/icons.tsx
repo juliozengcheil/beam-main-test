@@ -1,6 +1,32 @@
+import Image from 'next/image'
 import * as React from 'react'
 
 type IconProps = React.ComponentProps<'svg'>
+
+export function DonwloadIcon(props: IconProps) {
+  return (
+    <svg
+      width="16"
+      height="15"
+      viewBox="0 0 16 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="0.410156"
+        y="12.4519"
+        width="15.4477"
+        height="2.37657"
+        rx="0.5"
+        fill="currentColor"
+      />
+      <path
+        d="M7.00946 10.6057C7.30236 10.8986 7.77723 10.8986 8.07012 10.6057L12.8431 5.83273C13.136 5.53983 13.136 5.06496 12.8431 4.77207C12.5502 4.47917 12.0753 4.47917 11.7824 4.77207L7.53979 9.01471L3.29715 4.77207C3.00426 4.47917 2.52939 4.47917 2.23649 4.77207C1.9436 5.06496 1.9436 5.53983 2.23649 5.83273L7.00946 10.6057ZM6.78979 0.569092L6.78979 10.0754H8.28979V0.569092H6.78979Z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
 
 export function SearchIcon(props: IconProps) {
   return (
@@ -379,7 +405,16 @@ export function MarkdownIcon(props: IconProps) {
   )
 }
 
-export function CheilLogo({ className }: { className: string }) {
+export function CheilLogo({
+  className,
+  w = 363,
+  h = 115,
+}: {
+  className: string
+  w: number
+  h: number
+}) {
+  return <Image src="/LOGO_CHEIL.svg" alt="cheil logo" height={h} width={w} />
   return <h1 className={className}>Cheil</h1>
 }
 
