@@ -259,6 +259,27 @@ export const postRouter = createProtectedRouter()
       return id
     },
   })
+  .mutation('download', {
+    input: z.number(),
+    async resolve({ input: id, ctx }) {
+      await ctx.prisma.downloadPosts.create({
+        data: {
+          post: {
+            connect: {
+              id,
+            },
+          },
+          user: {
+            connect: {
+              id: ctx.session.user.id,
+            },
+          },
+        },
+      })
+
+      return id
+    },
+  })
   .mutation('like', {
     input: z.number(),
     async resolve({ input: id, ctx }) {

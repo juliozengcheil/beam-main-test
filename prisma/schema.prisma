@@ -51,9 +51,9 @@ model Session {
 }
 
 model User {
-  id            String       @id @default(cuid())
+  id            String          @id @default(cuid())
   name          String?
-  email         String?      @unique
+  email         String?         @unique
   emailVerified DateTime?
   image         String?
   title         String?
@@ -62,7 +62,8 @@ model User {
   posts         Post[]
   likedPosts    LikedPosts[]
   comments      Comment[]
-  role          Role         @default(USER)
+  downloadPosts DownloadPosts[]
+  role          Role            @default(USER)
 }
 
 model VerificationToken {
@@ -85,13 +86,28 @@ model Post {
   authorId    String
   likedBy     LikedPosts[]
   comments    Comment[]
-  fileUrl     String
+
+  fileUrl    String
+  downloadBy DownloadPosts[]
+
 
   @@index([authorId])
   @@fulltext([title, content])
 }
 
 model LikedPosts {
+  post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  postId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@id([postId, userId])
+  @@index([postId])
+  @@index([userId])
+}
+
+model DownloadPosts {
   post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   postId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
