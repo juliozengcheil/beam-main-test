@@ -3,6 +3,7 @@ import { Banner } from '@/components/banner'
 import { HtmlView } from '@/components/html-view'
 import {
   ChevronRightIcon,
+  DonwloadIcon,
   HeartFilledIcon,
   HeartIcon,
   MessageIcon,
@@ -58,6 +59,7 @@ export function PostSummary({
     post.likedBy.find((item) => item.user.id === session!.user.id)
   )
   const likeCount = post.likedBy.length
+  const downloadCount = post.downloadBy.length
 
   return (
     <div>
@@ -149,6 +151,13 @@ export function PostSummary({
               <MessageIcon className="w-4 h-4 text-secondary" />
               <span className="text-sm font-semibold tabular-nums">
                 {post._count.comments}
+              </span>
+            </div>
+
+            <div className="inline-flex items-center gap-1.5">
+              <DonwloadIcon className="w-4 h-4 text-secondary" />
+              <span className="text-sm font-semibold tabular-nums">
+                {downloadCount}
               </span>
             </div>
           </div>
