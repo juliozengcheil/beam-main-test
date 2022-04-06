@@ -251,10 +251,14 @@ const PostPage: NextPageWithAuthAndLayout = () => {
                 onClick={() => {
                   supabase.storage
                     .from('cheil-post')
-                    .download('files/1649271175-abc.xlsx')
+                    .download(postQuery.data.fileUrl)
                     .then((res) => {
-                      console.log('res', res)
-                      fileDownload(res.data!, 'abc.xlsx')
+                      console.log('res', postQuery.data.fileUrl)
+                      const hyphenIndex = postQuery.data.fileUrl.indexOf('-')
+                      const filename = postQuery.data.fileUrl.substring(
+                        hyphenIndex + 1
+                      )
+                      fileDownload(res.data!, filename)
                     })
                     .catch((e) => {
                       console.log('some error on supabase', e.message)
