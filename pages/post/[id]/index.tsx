@@ -135,31 +135,6 @@ const PostPage: NextPageWithAuthAndLayout = () => {
     const isUserAdmin = session!.user.role === 'ADMIN'
     const postBelongsToUser = postQuery.data.author.id === session!.user.id
 
-    let data, error, urlData
-    const fileUrl = postQuery.data.fileUrl
-    if (postQuery.data.fileUrl) {
-      console.log('hasfileurl', postQuery.data.fileUrl)
-      const imgUrl = 'images/1649264060-image.png'
-      supabase.storage
-        .from('cheil-post')
-        .download(imgUrl)
-        // .download(fileUrl)
-        .then((res) => {
-          console.log('res', res)
-          // const excelContentType =
-          //   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-          urlData = window.URL.createObjectURL(res.data!)
-        })
-        .catch((e) => {
-          console.log('some error on supabase', e)
-        })
-      // const { publicURL, data } = supabase.storage
-      //   .from('cheil-post')
-      //   .getPublicUrl(fileUrl)
-      // console.log(data, publicURL)
-      // urlData = publicURL
-    }
-
     return (
       <>
         <Head>
@@ -274,10 +249,9 @@ const PostPage: NextPageWithAuthAndLayout = () => {
             <div className="mt-6">
               <button
                 onClick={() => {
-                  const url = supabase.storage
+                  supabase.storage
                     .from('cheil-post')
                     .download('files/1649271175-abc.xlsx')
-                    // .download(fileUrl)
                     .then((res) => {
                       console.log('res', res)
                       fileDownload(res.data!, 'abc.xlsx')
