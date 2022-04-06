@@ -31,8 +31,10 @@ import {
   MenuItems,
   MenuItemsContent,
 } from '@/components/menu'
+import { supabase } from '@/lib/supabase-client'
 import { InferQueryOutput, InferQueryPathAndInput, trpc } from '@/lib/trpc'
 import type { NextPageWithAuthAndLayout } from '@/lib/types'
+import fileDownload from 'js-file-download'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -132,6 +134,31 @@ const PostPage: NextPageWithAuthAndLayout = () => {
   if (postQuery.data) {
     const isUserAdmin = session!.user.role === 'ADMIN'
     const postBelongsToUser = postQuery.data.author.id === session!.user.id
+
+    let data, error, urlData
+    const fileUrl = postQuery.data.fileUrl
+    if (postQuery.data.fileUrl) {
+      console.log('hasfileurl', postQuery.data.fileUrl)
+      const imgUrl = 'images/1649264060-image.png'
+      supabase.storage
+        .from('cheil-post')
+        .download(imgUrl)
+        // .download(fileUrl)
+        .then((res) => {
+          console.log('res', res)
+          // const excelContentType =
+          //   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          urlData = window.URL.createObjectURL(res.data!)
+        })
+        .catch((e) => {
+          console.log('some error on supabase', e)
+        })
+      // const { publicURL, data } = supabase.storage
+      //   .from('cheil-post')
+      //   .getPublicUrl(fileUrl)
+      // console.log(data, publicURL)
+      // urlData = publicURL
+    }
 
     return (
       <>
@@ -238,6 +265,30 @@ const PostPage: NextPageWithAuthAndLayout = () => {
                 author={postQuery.data.author}
                 date={postQuery.data.createdAt}
               />
+            </div>
+            <div className="mt-6">
+              <a href="/api/getFile/abc" download>
+                test download api getfile
+              </a>
+            </div>
+            <div className="mt-6">
+              <button
+                onClick={() => {
+                  const url = supabase.storage
+                    .from('cheil-post')
+                    .download('files/1649271175-abc.xlsx')
+                    // .download(fileUrl)
+                    .then((res) => {
+                      console.log('res', res)
+                      fileDownload(res.data!, 'abc.xlsx')
+                    })
+                    .catch((e) => {
+                      console.log('some error on supabase', e.message)
+                    })
+                }}
+              >
+                usando js-file-download
+              </button>
             </div>
             <HtmlView html={postQuery.data.contentHtml} className="mt-8" />
             <div className="flex gap-4 mt-6">
