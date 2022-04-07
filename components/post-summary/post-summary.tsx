@@ -7,6 +7,7 @@ import {
   HeartFilledIcon,
   HeartIcon,
   MessageIcon,
+  ViewIcon,
 } from '@/components/icons'
 import { MAX_LIKED_BY_SHOWN } from '@/components/like-button'
 import { classNames } from '@/lib/classnames'
@@ -61,6 +62,7 @@ export function PostSummary({
   //MAYBE add isDownloadByCurrentUser
   const likeCount = post.likedBy.length
   const downloadCount = post.downloadBy.length
+  const viewCount = post.viewedBy.length
 
   return (
     <div className="p-8 w-80 border border-neutral-600 hover:ring-offset-2 hover:ring-2 ">
@@ -193,6 +195,49 @@ export function PostSummary({
                     .join(', ')}
                   {downloadCount > MAX_LIKED_BY_SHOWN &&
                     ` and ${downloadCount - MAX_LIKED_BY_SHOWN} more`}
+                </p>
+                <Tooltip.Arrow
+                  offset={22}
+                  className="fill-gray-800 dark:fill-gray-50"
+                />
+              </Tooltip.Content>
+            </Tooltip.Root>
+
+            {/*view count  */}
+            <Tooltip.Root delayDuration={300}>
+              <Tooltip.Trigger
+                asChild
+                onClick={(event) => {
+                  event.preventDefault()
+                }}
+                onMouseDown={(event) => {
+                  event.preventDefault()
+                }}
+              >
+                <div className="inline-flex items-center gap-1.5">
+                  <ViewIcon className="w-4 h-4 text-secondary" />
+                  <span className="text-sm font-semibold tabular-nums">
+                    {viewCount}
+                  </span>
+                </div>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                side="bottom"
+                sideOffset={4}
+                className={classNames(
+                  'max-w-[260px] px-3 py-1.5 rounded shadow-lg bg-secondary-inverse text-secondary-inverse sm:max-w-sm',
+                  downloadCount === 0 && 'hidden'
+                )}
+              >
+                <p className="text-sm">
+                  {post.viewedBy
+                    .slice(0, MAX_LIKED_BY_SHOWN)
+                    .map((item) =>
+                      item.user.id === session!.user.id ? 'You' : item.user.name
+                    )
+                    .join(', ')}
+                  {viewCount > MAX_LIKED_BY_SHOWN &&
+                    ` and ${viewCount - MAX_LIKED_BY_SHOWN} more`}
                 </p>
                 <Tooltip.Arrow
                   offset={22}

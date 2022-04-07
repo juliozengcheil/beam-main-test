@@ -11,7 +11,7 @@ import { IconButton } from '@/components/icon-button'
 import { EditIcon } from '@/components/icons'
 import { Layout } from '@/components/layout'
 import { getQueryPaginationInput, Pagination } from '@/components/pagination'
-import type { PostSummaryProps } from '@/components/post-summary'
+import type { PostSummaryProps } from '@/components/post-summary/post-summary'
 import { PostSummarySkeleton } from '@/components/post-summary-skeleton'
 import { TextField } from '@/components/text-field'
 import { browserEnv } from '@/env/browser'
@@ -28,7 +28,10 @@ import toast from 'react-hot-toast'
 import { useMutation } from 'react-query'
 
 const PostSummary = dynamic<PostSummaryProps>(
-  () => import('@/components/post-summary').then((mod) => mod.PostSummary),
+  () =>
+    import('@/components/post-summary/post-summary').then(
+      (mod) => mod.PostSummary
+    ),
   { ssr: false }
 )
 

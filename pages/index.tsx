@@ -1,8 +1,7 @@
 import { CardSummarySkeleton } from '@/components/card-summary-skeleton'
 import { Layout } from '@/components/layout'
 import { getQueryPaginationInput, Pagination } from '@/components/pagination'
-import type { PostSummaryProps } from '@/components/post-summary'
-import { PostSummarySkeleton } from '@/components/post-summary-skeleton'
+import type { PostSummaryProps } from '@/components/post-summary/post-summary'
 import { InferQueryPathAndInput, trpc } from '@/lib/trpc'
 import type { NextPageWithAuthAndLayout } from '@/lib/types'
 import { useSession } from 'next-auth/react'
@@ -12,7 +11,10 @@ import { useRouter } from 'next/router'
 import * as React from 'react'
 
 const PostSummary = dynamic<PostSummaryProps>(
-  () => import('@/components/post-summary').then((mod) => mod.PostSummary),
+  () =>
+    import('@/components/post-summary/post-summary').then(
+      (mod) => mod.PostSummary
+    ),
   { ssr: false }
 )
 
@@ -139,19 +141,6 @@ const Home: NextPageWithAuthAndLayout = () => {
   return (
     <div className="flow-root">
       <ul className="flex flex-wrap justify-between">
-        {[...Array(3)].map((_, idx) => (
-          <li key={idx} className="py-10">
-            <CardSummarySkeleton />
-            {/* <PostSummarySkeleton /> */}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-
-  return (
-    <div className="flow-root">
-      <ul className="-my-12 divide-y divide-primary">
         {[...Array(3)].map((_, idx) => (
           <li key={idx} className="py-10">
             <CardSummarySkeleton />
