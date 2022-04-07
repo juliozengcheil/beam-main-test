@@ -103,8 +103,8 @@ const Home: NextPageWithAuthAndLayout = () => {
             There are no published posts to show yet.
           </div>
         ) : (
-          <div className="flow-root">
-            <ul className="-my-12 divide-y divide-primary">
+          <div className="">
+            <ul className="-mx-12 grid grid-flow-col gap-5 ">
               {feedQuery.data.posts.map((post) => (
                 <li key={post.id} className="py-10">
                   <PostSummary
