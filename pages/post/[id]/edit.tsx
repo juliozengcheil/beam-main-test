@@ -41,6 +41,7 @@ const EditPostPage: NextPageWithAuthAndLayout = () => {
                 defaultValues={{
                   title: postQuery.data.title,
                   content: postQuery.data.content,
+                  file: postQuery.data.fileUrl!,
                 }}
                 backTo={`/post/${postQuery.data.id}`}
                 onSubmit={(values) => {
