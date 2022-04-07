@@ -1,3 +1,4 @@
+import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import * as React from 'react'
 
@@ -414,7 +415,10 @@ export function CheilLogo({
   w: number
   h: number
 }) {
-  return <Image src="/LOGO_CHEIL.svg" alt="cheil logo" height={h} width={w} />
+  const { theme } = useTheme()
+  const isLigth = theme === 'light'
+  const logo = `/LOGO_CHEIL_${isLigth ? 'dark' : 'light'}.svg`
+  return <Image src={logo} alt="cheil logo" height={h} width={w} />
   return <h1 className={className}>Cheil</h1>
 }
 
