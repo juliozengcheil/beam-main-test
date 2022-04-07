@@ -181,7 +181,6 @@ export default function MarkdownEditor({
                 }
               }}
               onPaste={(event) => {
-                event.preventDefault()
                 if (browserEnv.NEXT_PUBLIC_ENABLE_IMAGE_UPLOAD) {
                   const filesArray = Array.from(event.clipboardData.files)
 
@@ -189,12 +188,11 @@ export default function MarkdownEditor({
                     return
                   }
 
+                  event.preventDefault()
                   handleUploadFiles(event.currentTarget, filesArray)
                 }
               }}
               onDrop={(event) => {
-                console.log('prevent default')
-                event.preventDefault()
                 if (browserEnv.NEXT_PUBLIC_ENABLE_IMAGE_UPLOAD) {
                   const filesArray = Array.from(event.dataTransfer.files)
 
@@ -202,6 +200,7 @@ export default function MarkdownEditor({
                     return
                   }
 
+                  event.preventDefault()
                   handleUploadFiles(event.currentTarget, filesArray)
                 }
               }}
