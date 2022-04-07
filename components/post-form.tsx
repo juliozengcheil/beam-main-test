@@ -11,7 +11,7 @@ import { uploadFile } from '@/lib/uploadFile'
 type FormData = {
   title: string
   content: string
-  fileUrl?: string
+  file?: File
 }
 
 type PostFormProps = {
@@ -44,14 +44,23 @@ export function PostForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mt-6">
+      <TextField
+        {...register('file', { required: true })}
+        type="file"
+        label="File Url"
+        autoFocus
+        required
+        className="mt-6 text-lg font-semibold !py-1.5"
+      />
+      {/* <div className="mt-6">
         <Controller
           name="fileUrl"
           control={control}
-          rules={{ required: false }}
-          render={({ field }) => {
+          rules={{ required: true }}
+          render={({ field, formState: { errors } }) => {
+            console.log(errors.fileUrl)
             return (
-              <label className="">
+              <label>
                 <input
                   name="file"
                   type="file"
@@ -59,21 +68,20 @@ export function PostForm({
                     const file = e.target.files![0]
                     const uploadedFile = await uploadFile(file)
                     field.onChange(uploadedFile.filePath)
-                    return uploadedFile.url
                   }}
                 />
               </label>
             )
           }}
         />
-      </div>
+      </div> */}
 
       <TextField
         {...register('title', { required: true })}
         label="Title"
         autoFocus
         required
-        className="text-lg font-semibold !py-1.5"
+        className="mt-6 text-lg font-semibold !py-1.5"
       />
 
       <div className="mt-6">

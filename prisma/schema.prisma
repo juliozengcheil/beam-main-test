@@ -87,7 +87,7 @@ model Post {
   likedBy     LikedPosts[]
   comments    Comment[]
 
-  fileUrl    String
+  fileUrl    String?
   downloadBy DownloadPosts[]
 
 

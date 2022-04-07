@@ -58,6 +58,7 @@ export function PostSummary({
   const isLikedByCurrentUser = Boolean(
     post.likedBy.find((item) => item.user.id === session!.user.id)
   )
+  //MAYBE add isDownloadByCurrentUser
   const likeCount = post.likedBy.length
   const downloadCount = post.downloadBy.length
 
@@ -100,6 +101,7 @@ export function PostSummary({
               </a>
             </Link>
           )}
+
           <div className="ml-auto flex gap-6">
             <Tooltip.Root delayDuration={300}>
               <Tooltip.Trigger
@@ -154,12 +156,47 @@ export function PostSummary({
               </span>
             </div>
 
-            <div className="inline-flex items-center gap-1.5">
-              <DonwloadIcon className="w-4 h-4 text-secondary" />
-              <span className="text-sm font-semibold tabular-nums">
-                {downloadCount}
-              </span>
-            </div>
+            <Tooltip.Root delayDuration={300}>
+              <Tooltip.Trigger
+                asChild
+                onClick={(event) => {
+                  event.preventDefault()
+                }}
+                onMouseDown={(event) => {
+                  event.preventDefault()
+                }}
+              >
+                <div className="inline-flex items-center gap-1.5">
+                  <DonwloadIcon className="w-4 h-4 text-secondary" />
+                  <span className="text-sm font-semibold tabular-nums">
+                    {downloadCount}
+                  </span>
+                </div>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                side="bottom"
+                sideOffset={4}
+                className={classNames(
+                  'max-w-[260px] px-3 py-1.5 rounded shadow-lg bg-secondary-inverse text-secondary-inverse sm:max-w-sm',
+                  downloadCount === 0 && 'hidden'
+                )}
+              >
+                <p className="text-sm">
+                  {post.downloadBy
+                    .slice(0, MAX_LIKED_BY_SHOWN)
+                    .map((item) =>
+                      item.user.id === session!.user.id ? 'You' : item.user.name
+                    )
+                    .join(', ')}
+                  {downloadCount > MAX_LIKED_BY_SHOWN &&
+                    ` and ${downloadCount - MAX_LIKED_BY_SHOWN} more`}
+                </p>
+                <Tooltip.Arrow
+                  offset={22}
+                  className="fill-gray-800 dark:fill-gray-50"
+                />
+              </Tooltip.Content>
+            </Tooltip.Root>
           </div>
         </div>
       </div>

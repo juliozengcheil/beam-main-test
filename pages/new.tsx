@@ -2,6 +2,7 @@ import { Layout } from '@/components/layout'
 import { PostForm } from '@/components/post-form'
 import { trpc } from '@/lib/trpc'
 import type { NextPageWithAuthAndLayout } from '@/lib/types'
+import { uploadFile } from '@/lib/uploadFile'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
@@ -32,12 +33,13 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
             content: '',
           }}
           backTo="/"
-          onSubmit={(values) => {
+          onSubmit={async (values) => {
+            const uploadedFile = await uploadFile(values.file!)
             addPostMutation.mutate(
               {
                 title: values.title,
                 content: values.content,
-                fileUrl: values.fileUrl!,
+                fileUrl: uploadedFile.filePath,
               },
               {
                 onSuccess: (data) => router.push(`/post/${data.id}`),

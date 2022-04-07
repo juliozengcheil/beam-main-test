@@ -200,9 +200,13 @@ export const postRouter = createProtectedRouter()
     input: z.object({
       title: z.string().min(1),
       content: z.string().min(1),
-      fileUrl: z.string().min(1),
+      fileUrl: z
+        .string()
+        .min(1, { message: 'please upload a file' })
+        .nullable(),
     }),
     async resolve({ ctx, input }) {
+      console.log('addind to db by prisma')
       const post = await ctx.prisma.post.create({
         data: {
           title: input.title,
