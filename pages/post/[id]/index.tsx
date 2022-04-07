@@ -20,6 +20,8 @@ import {
   EyeIcon,
   MessageIcon,
   TrashIcon,
+  DonwloadIcon,
+  ViewIcon,
 } from '@/components/icons'
 import { Layout } from '@/components/layout'
 import { LikeButton } from '@/components/like-button'
@@ -97,20 +99,12 @@ const PostPage: NextPageWithAuthAndLayout = () => {
   })
 
   React.useEffect(() => {
-    console.log('checking viewCount')
     const viewCountIt = isUserHasInteractIt(
       postQuery.data?.viewedBy!,
       session?.user.id!
     )
-    console.log('viewCount', viewCountIt)
-    console.log(
-      'checking viewcount and postQuery',
-      viewCountIt && postQuery.data
-    )
     if (viewCountIt && postQuery.data) {
-      console.log('adding a count to view')
       viewedMutation.mutate(postQuery.data.id!)
-      console.log('view counted')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postQuery.data])
@@ -362,6 +356,7 @@ const PostPage: NextPageWithAuthAndLayout = () => {
                   unlikeMutation.mutate(postQuery.data.id)
                 }}
               />
+
               <ButtonLink
                 href={`/post/${postQuery.data.id}#comments`}
                 variant="secondary"
@@ -369,6 +364,11 @@ const PostPage: NextPageWithAuthAndLayout = () => {
                 <MessageIcon className="w-4 h-4 text-secondary" />
                 <span className="ml-1.5">{postQuery.data._count.comments}</span>
               </ButtonLink>
+
+              <div className="inline-flex items-center justify-center font-semibold transition-colors rounded-full focus-ring border text-primary border-secondary bg-primary px-3 h-8 text-xs sm:px-4 sm:text-sm sm:h-button">
+                <DonwloadIcon className="w-4 h-4 text-secondary" />
+                <span className="ml-1.5">{postQuery.data._count.comments}</span>
+              </div>
             </div>
           </div>
 
