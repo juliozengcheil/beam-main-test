@@ -273,15 +273,26 @@ const PostPage: NextPageWithAuthAndLayout = () => {
               </a>
             </div> */}
             <div className="mt-6">
-              <button
+              <Button
                 onClick={() => {
                   onClickDownload(postQuery.data.fileUrl!)
-                  downloadMutation.mutate(postQuery.data.id)
+                  //check if is the same user
+                  const isUserHasDownloadIt =
+                    postQuery.data.downloadBy.findIndex((e) => {
+                      if (e.user.id === session?.user.id) {
+                        return true
+                      }
+                    }) >= 0
+
+                  if (!isUserHasDownloadIt) {
+                    downloadMutation.mutate(postQuery.data.id)
+                  }
                 }}
               >
                 download {getFilename(postQuery.data.fileUrl!)}
-              </button>
+              </Button>
             </div>
+
             <HtmlView html={postQuery.data.contentHtml} className="mt-8" />
             <div className="flex gap-4 mt-6">
               {/* //TODO add download Counter */}
