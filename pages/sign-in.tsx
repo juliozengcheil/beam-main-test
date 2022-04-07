@@ -23,7 +23,9 @@ const SignIn = ({
       <Div100vh>
         <main className="relative flex items-center justify-center h-full bg-center bg-circle-grid dark:bg-circle-grid-dark">
           <div className="relative bottom-16">
-            <CheilLogo className="mb-8 text-center font-black text-7xl" />
+            <div className="mb-8">
+              <CheilLogo h={150} w={200} className="" />
+            </div>
             <div className="w-full space-y-4 text-center bg-primary">
               {Object.values(providers!).map((provider) => (
                 <div key={provider.name}>

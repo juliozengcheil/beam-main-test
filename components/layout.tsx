@@ -32,7 +32,7 @@ export function Layout({ children }: LayoutProps) {
       <header className="flex items-center justify-between gap-4 py-12 md:py-20">
         <Link href="/">
           <a>
-            <CheilLogo className="w-auto text-3xl font-black" />
+            <CheilLogo w={125} h={50} className="w-auto text-3xl font-black" />
           </a>
         </Link>
         <div className="flex items-center gap-2 md:gap-4">

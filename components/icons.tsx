@@ -413,12 +413,20 @@ export function CheilLogo({
 }: {
   className: string
   w: number
-  h: number
+  h: number | string
 }) {
   const { theme } = useTheme()
   const isLigth = theme === 'light'
   const logo = `/LOGO_CHEIL_${isLigth ? 'dark' : 'light'}.svg`
-  return <Image src={logo} alt="cheil logo" height={h} width={w} />
+  return (
+    <Image
+      src={logo}
+      alt="cheil logo"
+      width={w}
+      height={h}
+      className={className}
+    />
+  )
   return <h1 className={className}>Cheil</h1>
 }
 
