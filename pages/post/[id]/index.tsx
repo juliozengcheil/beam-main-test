@@ -275,15 +275,16 @@ const PostPage: NextPageWithAuthAndLayout = () => {
             <div className="mt-6">
               <button
                 onClick={() => {
-                  onClickDownload(postQuery.data.fileUrl)
+                  onClickDownload(postQuery.data.fileUrl!)
                   downloadMutation.mutate(postQuery.data.id)
                 }}
               >
-                download {getFilename(postQuery.data.fileUrl)}
+                download {getFilename(postQuery.data.fileUrl!)}
               </button>
             </div>
             <HtmlView html={postQuery.data.contentHtml} className="mt-8" />
             <div className="flex gap-4 mt-6">
+              {/* //TODO add download Counter */}
               <LikeButton
                 likedBy={postQuery.data.likedBy}
                 onLike={() => {
