@@ -68,6 +68,19 @@ export const postRouter = createProtectedRouter()
               },
             },
           },
+          viewedBy: {
+            orderBy: {
+              createdAt: 'asc',
+            },
+            select: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
           _count: {
             select: {
               comments: true,
@@ -123,6 +136,19 @@ export const postRouter = createProtectedRouter()
             },
           },
           downloadBy: {
+            orderBy: {
+              createdAt: 'asc',
+            },
+            select: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+          viewedBy: {
             orderBy: {
               createdAt: 'asc',
             },
@@ -287,6 +313,27 @@ export const postRouter = createProtectedRouter()
       }
 
       await ctx.prisma.post.delete({ where: { id } })
+      return id
+    },
+  })
+  .mutation('viewed', {
+    input: z.number(),
+    async resolve({ input: id, ctx }) {
+      await ctx.prisma.viewedPosts.create({
+        data: {
+          post: {
+            connect: {
+              id,
+            },
+          },
+          user: {
+            connect: {
+              id: ctx.session.user.id,
+            },
+          },
+        },
+      })
+
       return id
     },
   })

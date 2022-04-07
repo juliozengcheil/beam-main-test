@@ -53,6 +53,15 @@ function getPostQueryPathAndInput(
   ]
 }
 
+const isUserHasInteractIt = (data: any[], sessionId: string): boolean =>
+  !(
+    data?.findIndex((e) => {
+      if (e.user.id === sessionId) {
+        return true
+      }
+    }) >= 0
+  )
+
 const PostPage: NextPageWithAuthAndLayout = () => {
   const { data: session } = useSession()
   const router = useRouter()
@@ -61,6 +70,50 @@ const PostPage: NextPageWithAuthAndLayout = () => {
     Number(router.query.id)
   )
   const postQuery = trpc.useQuery(postQueryPathAndInput)
+
+  const viewedMutation = trpc.useMutation(['post.viewed'], {
+    onMutate: async (viewedPostId) => {
+      await utils.cancelQuery(postQueryPathAndInput)
+
+      const previousPost = utils.getQueryData(postQueryPathAndInput)
+
+      if (previousPost) {
+        utils.setQueryData(postQueryPathAndInput, {
+          ...previousPost,
+          viewedBy: [
+            ...previousPost.viewedBy,
+            { user: { id: session!.user.id, name: session!.user.name } },
+          ],
+        })
+      }
+
+      return { previousPost }
+    },
+    onError: (err, id, context: any) => {
+      if (context?.previousPost) {
+        utils.setQueryData(postQueryPathAndInput, context.previousPost)
+      }
+    },
+  })
+
+  React.useEffect(() => {
+    console.log('checking viewCount')
+    const viewCountIt = isUserHasInteractIt(
+      postQuery.data?.viewedBy!,
+      session?.user.id!
+    )
+    console.log('viewCount', viewCountIt)
+    console.log(
+      'checking viewcount and postQuery',
+      viewCountIt && postQuery.data
+    )
+    if (viewCountIt && postQuery.data) {
+      console.log('adding a count to view')
+      viewedMutation.mutate(postQuery.data.id!)
+      console.log('view counted')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postQuery.data])
 
   const downloadMutation = trpc.useMutation(['post.download'], {
     onMutate: async (downloadedPostId) => {
@@ -72,7 +125,7 @@ const PostPage: NextPageWithAuthAndLayout = () => {
         utils.setQueryData(postQueryPathAndInput, {
           ...previousPost,
           downloadBy: [
-            ...previousPost.likedBy,
+            ...previousPost.downloadBy,
             { user: { id: session!.user.id, name: session!.user.name } },
           ],
         })
@@ -277,14 +330,18 @@ const PostPage: NextPageWithAuthAndLayout = () => {
                 onClick={() => {
                   onClickDownload(postQuery.data.fileUrl!)
                   //check if is the same user
-                  const isUserHasDownloadIt =
-                    postQuery.data.downloadBy.findIndex((e) => {
-                      if (e.user.id === session?.user.id) {
-                        return true
-                      }
-                    }) >= 0
-
-                  if (!isUserHasDownloadIt) {
+                  // const isUserHasDownloadIt = !(
+                  //   postQuery.data.downloadBy.findIndex((e) => {
+                  //     if (e.user.id === session?.user.id) {
+                  //       return true
+                  //     }
+                  //   }) >= 0
+                  // )
+                  const downloadCountIt = isUserHasInteractIt(
+                    postQuery.data.downloadBy,
+                    session?.user.id!
+                  )
+                  if (downloadCountIt) {
                     downloadMutation.mutate(postQuery.data.id)
                   }
                 }}
