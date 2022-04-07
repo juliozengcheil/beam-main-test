@@ -11,7 +11,7 @@ import { uploadFile } from '@/lib/uploadFile'
 type FormData = {
   title: string
   content: string
-  file?: File
+  file?: File | string
 }
 
 type PostFormProps = {
