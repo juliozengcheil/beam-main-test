@@ -63,7 +63,7 @@ export function PostSummary({
   const downloadCount = post.downloadBy.length
 
   return (
-    <div>
+    <div className="p-8 w-96 border border-neutral-600 hover:ring-offset-2 hover:ring-2">
       {post.hidden && (
         <Banner className="mb-6">
           This post has been hidden and is only visible to administrators.
@@ -90,7 +90,7 @@ export function PostSummary({
             <AuthorWithDate author={post.author} date={post.createdAt} />
           )}
         </div>
-        {post.fileUrl && <span>Has attach file</span>}
+
         <HtmlView html={summary} className={hideAuthor ? 'mt-4' : 'mt-6'} />
 
         <div className="flex items-center gap-4 mt-4">
