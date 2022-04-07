@@ -1,3 +1,4 @@
+import { CardSummarySkeleton } from '@/components/card-summary-skeleton'
 import { Layout } from '@/components/layout'
 import { getQueryPaginationInput, Pagination } from '@/components/pagination'
 import type { PostSummaryProps } from '@/components/post-summary'
@@ -104,7 +105,7 @@ const Home: NextPageWithAuthAndLayout = () => {
           </div>
         ) : (
           <div className="">
-            <ul className="-mx-12 grid grid-flow-col gap-5 ">
+            <ul className="flex flex-wrap justify-between">
               {feedQuery.data.posts.map((post) => (
                 <li key={post.id} className="py-10">
                   <PostSummary
@@ -137,10 +138,24 @@ const Home: NextPageWithAuthAndLayout = () => {
 
   return (
     <div className="flow-root">
+      <ul className="flex flex-wrap justify-between">
+        {[...Array(3)].map((_, idx) => (
+          <li key={idx} className="py-10">
+            <CardSummarySkeleton />
+            {/* <PostSummarySkeleton /> */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+
+  return (
+    <div className="flow-root">
       <ul className="-my-12 divide-y divide-primary">
         {[...Array(3)].map((_, idx) => (
           <li key={idx} className="py-10">
-            <PostSummarySkeleton />
+            <CardSummarySkeleton />
+            {/* <PostSummarySkeleton /> */}
           </li>
         ))}
       </ul>
