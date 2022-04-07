@@ -34,7 +34,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
           }}
           backTo="/"
           onSubmit={async (values) => {
-            const uploadedFile = await uploadFile(values.file!)
+            const uploadedFile = await uploadFile(values.file! as File)
             addPostMutation.mutate(
               {
                 title: values.title,
