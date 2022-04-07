@@ -63,13 +63,29 @@ export function PostSummary({
   const downloadCount = post.downloadBy.length
 
   return (
-    <div className="p-8 w-96 border border-neutral-600 hover:ring-offset-2 hover:ring-2">
+    <div className="p-8 w-80 border border-neutral-600 hover:ring-offset-2 hover:ring-2 ">
       {post.hidden && (
         <Banner className="mb-6">
           This post has been hidden and is only visible to administrators.
         </Banner>
       )}
-      <div className={classNames(post.hidden ? 'opacity-50' : '')}>
+
+      <div className={classNames(hideAuthor ? '' : '')}>
+        {hideAuthor ? (
+          <p className="tracking-tight text-secondary">
+            <time dateTime={post.createdAt.toISOString()}>
+              {formatDistanceToNow(post.createdAt)}
+            </time>{' '}
+            ago
+          </p>
+        ) : (
+          <AuthorWithDate author={post.author} date={post.createdAt} />
+        )}
+      </div>
+
+      <div className="divide-y" />
+
+      <div className={`mt-6 ${classNames(post.hidden ? 'opacity-50' : '')}`}>
         <Link href={`/post/${post.id}`}>
           <a>
             <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
@@ -77,19 +93,6 @@ export function PostSummary({
             </h2>
           </a>
         </Link>
-
-        <div className={classNames(hideAuthor ? 'mt-2' : 'mt-6')}>
-          {hideAuthor ? (
-            <p className="tracking-tight text-secondary">
-              <time dateTime={post.createdAt.toISOString()}>
-                {formatDistanceToNow(post.createdAt)}
-              </time>{' '}
-              ago
-            </p>
-          ) : (
-            <AuthorWithDate author={post.author} date={post.createdAt} />
-          )}
-        </div>
 
         <HtmlView html={summary} className={hideAuthor ? 'mt-4' : 'mt-6'} />
 
