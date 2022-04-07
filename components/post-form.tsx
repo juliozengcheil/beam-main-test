@@ -52,30 +52,6 @@ export function PostForm({
         required
         className="mt-6 text-lg font-semibold !py-1.5"
       />
-      {/* <div className="mt-6">
-        <Controller
-          name="fileUrl"
-          control={control}
-          rules={{ required: true }}
-          render={({ field, formState: { errors } }) => {
-            console.log(errors.fileUrl)
-            return (
-              <label>
-                <input
-                  name="file"
-                  type="file"
-                  onChange={async (e) => {
-                    const file = e.target.files![0]
-                    const uploadedFile = await uploadFile(file)
-                    field.onChange(uploadedFile.filePath)
-                  }}
-                />
-              </label>
-            )
-          }}
-        />
-      </div> */}
-
       <TextField
         {...register('title', { required: true })}
         label="Title"
