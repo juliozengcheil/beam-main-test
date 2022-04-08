@@ -323,14 +323,6 @@ const PostPage: NextPageWithAuthAndLayout = () => {
               <Button
                 onClick={() => {
                   onClickDownload(postQuery.data.fileUrl!)
-                  //check if is the same user
-                  // const isUserHasDownloadIt = !(
-                  //   postQuery.data.downloadBy.findIndex((e) => {
-                  //     if (e.user.id === session?.user.id) {
-                  //       return true
-                  //     }
-                  //   }) >= 0
-                  // )
                   const downloadCountIt = isUserHasInteractIt(
                     postQuery.data.downloadBy,
                     session?.user.id!
