@@ -98,7 +98,7 @@ const Home: NextPageWithAuthAndLayout = () => {
     return (
       <>
         <Head>
-          <title>Beam</title>
+          <title>ReportDB</title>
         </Head>
 
         {feedQuery.data.postCount === 0 ? (

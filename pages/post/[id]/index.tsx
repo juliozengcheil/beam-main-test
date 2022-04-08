@@ -211,7 +211,7 @@ const PostPage: NextPageWithAuthAndLayout = () => {
     return (
       <>
         <Head>
-          <title>{postQuery.data.title} - Beam</title>
+          <title>{postQuery.data.title} - ReportDB</title>
         </Head>
 
         <div className="divide-y divide-primary">

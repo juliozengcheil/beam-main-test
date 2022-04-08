@@ -26,7 +26,7 @@ cloudinary.config({
 const cloudName = cloudinary.config().cloud_name!
 const apiSecret = cloudinary.config().api_secret!
 const apiKey = cloudinary.config().api_key!
-const folder = 'beam'
+const folder = 'reportDB'
 
 export default async function handler(
   req: NextApiRequest,
